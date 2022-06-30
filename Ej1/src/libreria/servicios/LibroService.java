@@ -1,6 +1,7 @@
 package libreria.servicios;
 
 import DAOs.LibroDao;
+import java.util.Collection;
 import java.util.Scanner;
 import libreria.entidades.Autor;
 import libreria.entidades.Editorial;
@@ -48,7 +49,7 @@ public class LibroService {
 
     }
 
-    public void buscarLibroPorISBN() {
+    public void buscarLibroPorISBN() throws Exception {
         try {
             System.out.println("Ingrese el código de su libro");
 
@@ -59,15 +60,14 @@ public class LibroService {
             } else {
                 System.out.println(libro.toString());
             }
-            
-            
+
         } catch (Exception ex) {
             throw ex;
         }
 
     }
 
-    public void buscarLibroPorNombre() {
+    public void buscarLibroPorNombre() throws Exception {
         try {
             System.out.println("Escriba el nombre del libro a buscar");
 
@@ -77,6 +77,45 @@ public class LibroService {
                 System.out.println("El libro no se encuentra en el sistema");
             } else {
                 System.out.println(libro.toString());
+            }
+        } catch (Exception ex) {
+            throw ex;
+        }
+
+    }
+
+    public void buscarLibroPorAutor() throws Exception {
+        try {
+            System.out.println("Escriba el nombre del autor a buscar");
+
+            Collection<Libro> libro = Dao.buscarLibroPorAutor(leer.nextLine());
+
+            if (libro == null) {
+                System.out.println("El autor no se encuentra en el sistema");
+            } else {
+                libro.forEach((libros) -> {
+                    System.out.println(libros.toString());
+                });
+            }
+        } catch (Exception ex) {
+            throw ex;
+        }
+
+    }
+
+    public void buscarLibroPorEditorial() throws Exception {
+        try {
+            System.out.println("Escriba el nombre de la editorial a buscar");
+
+            Collection<Libro> libro = Dao.buscarLibroPorEditorial(leer.nextLine());
+
+            if (libro == null) {
+                System.out.println("La editorial no se encuentra en el sistema");
+            } else {
+                libro.forEach((libros) -> {
+                    System.out.println(libros.toString());
+                });
+
             }
         } catch (Exception ex) {
             throw ex;

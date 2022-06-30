@@ -22,4 +22,21 @@ public class AutorService {
 
     }
 
+    public void buscarAutor() throws Exception {
+        try {
+            System.out.println("Escriba el nombre del autor a buscar");
+
+            Autor autor = DAO.buscarPorNombre(leer.nextLine());
+
+            if (autor == null) {
+                System.out.println("El autor no se encuentra en el sistema");
+            } else {
+                System.out.println(autor.toString());
+            }
+        } catch (Exception ex) {
+            throw ex;
+        }
+
+    }
+
 }

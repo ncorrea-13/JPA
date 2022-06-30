@@ -1,5 +1,6 @@
 package DAOs;
 
+import java.util.Collection;
 import libreria.entidades.Autor;
 import libreria.entidades.Editorial;
 import libreria.entidades.Libro;
@@ -36,15 +37,17 @@ public class LibroDao extends CRUD {
         }
     }
 
-    public boolean verificarLibro(Libro libro, String nombre) {
+    public boolean verificarLibro(Libro libro, String nombre) throws Exception {
 
         try {
             conectar();
+
             Libro nuevo = (Libro) em.createQuery("Select a "
                     + "From Libro a "
                     + "Where a.titulo LIKE :nombre").
                     setParameter("nombre", nombre).getSingleResult();
 
+            desconectar();
             if (nuevo == null) {
                 return true;
             } else if (nuevo == libro) {
@@ -58,10 +61,10 @@ public class LibroDao extends CRUD {
         }
 
     }
-    
-    public Libro buscarPorISBN(Long numero){
+
+    public Libro buscarPorISBN(Long numero) throws Exception {
         Libro libroBuscado = em.find(Libro.class, numero);
-        
+
         if (libroBuscado == null) {
             return null;
         } else {
@@ -69,7 +72,7 @@ public class LibroDao extends CRUD {
         }
     }
 
-    public Libro buscarPorNombre(String NombreBuscado) {
+    public Libro buscarPorNombre(String NombreBuscado) throws Exception {
 
         conectar();
         Libro nombreBuscado = (Libro) em.createQuery("Select a "
@@ -81,6 +84,44 @@ public class LibroDao extends CRUD {
         desconectar();
 
         if (nombreBuscado == null) {
+            return null;
+        } else {
+            return nombreBuscado;
+        }
+
+    }
+
+    public Collection<Libro> buscarLibroPorAutor(String Buscado) throws Exception {
+
+        conectar();
+        Collection<Libro> nombreBuscado = em.createQuery("Select a "
+                + "From Libro a "
+                + "Join a.autor c "
+                + "Where c.nombre LIKE :busquedad").
+                setParameter("busquedad", Buscado).
+                getResultList();
+
+        desconectar();
+
+        if (nombreBuscado.isEmpty()) {
+            return null;
+        } else {
+            return nombreBuscado;
+        }
+
+    }
+
+    public Collection<Libro> buscarLibroPorEditorial(String Buscado) throws Exception {
+
+        conectar();
+        Collection<Libro> nombreBuscado = em.createQuery("Select a "
+                + "From Libro a "
+                + "Join Editorial b "
+                + "Where b.nombre LIKE :nombre").
+                setParameter("nombre", Buscado).getResultList();
+
+        desconectar();
+        if (nombreBuscado.isEmpty()) {
             return null;
         } else {
             return nombreBuscado;

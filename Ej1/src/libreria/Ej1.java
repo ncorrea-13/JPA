@@ -45,10 +45,13 @@ public class Ej1 {
                     libro.buscarLibroPorNombre();
                     break;
                 case 6:
+                    autor.buscarAutor();
                     break;
                 case 7:
+                    libro.buscarLibroPorAutor();
                     break;
                 case 8:
+                    libro.buscarLibroPorEditorial();
                     break;
                 case 9:
                     System.out.println("Adiós");
@@ -60,7 +63,7 @@ public class Ej1 {
 
         } catch (Exception ex) {
             System.out.println("Error del sistema");
-            System.out.println("Código de error" + ex.toString());
+            System.out.println("Código de error " + ex.toString());
         }
 
     }

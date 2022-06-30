@@ -1,5 +1,6 @@
 package DAOs;
 
+import java.util.ArrayList;
 import java.util.Scanner;
 import libreria.entidades.Autor;
 
@@ -8,7 +9,9 @@ public class AutorDao extends CRUD<Autor> {
     protected Scanner leer = new Scanner(System.in).useDelimiter("\n");
 
     public Autor crearAutor(Long id) throws Exception {
-
+        
+        conectar();
+        
         Autor b = em.find(Autor.class, id);
 
         if (b == null) {
@@ -26,4 +29,25 @@ public class AutorDao extends CRUD<Autor> {
             return b;
         }
     }
+    
+    public Autor buscarPorNombre(String NombreBuscado) throws Exception {
+
+        conectar();
+        Autor nombreBuscado = (Autor) em.createQuery("Select a "
+                + "From Libro a "
+                + "Where a.titulo LIKE :nombre").
+                setParameter("nombre", NombreBuscado).
+                getSingleResult();
+
+        desconectar();
+
+        if (nombreBuscado == null) {
+            return null;
+        } else {
+            return nombreBuscado;
+        }
+
+    }
+    
+    
 }
